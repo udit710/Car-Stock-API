@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 namespace CarStockAPI.Models{
     public class Car{
         public int CarId { get; set; }
+
+        [Required]
         public int DealerId { get; set; }
 
         [Required]
