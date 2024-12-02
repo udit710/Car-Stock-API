@@ -9,7 +9,6 @@ namespace CarStockAPI.Data
 
         public DbContext(IConfiguration configuration)
         {
-            // You can configure the database file path via appsettings.json or use a default path
             _connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Data Source=cars.db";
         }
 
