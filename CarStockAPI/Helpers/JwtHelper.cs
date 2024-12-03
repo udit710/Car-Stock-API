@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System;
 using System.Security.Cryptography;
+using CarStockAPI.Models;
 
 namespace CarStockAPI.Helpers
 {
@@ -16,7 +17,7 @@ namespace CarStockAPI.Helpers
 
             var claims = new List<Claim>
             {
-                new Claim("dealerId", dealerId.ToString())
+                new Claim("DealerId", dealerId.ToString())
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
