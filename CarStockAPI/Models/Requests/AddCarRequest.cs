@@ -12,9 +12,9 @@ namespace CarStockAPI.Models.Requests
      */
     public class AddCarRequest
     {
-        public string Make { get; set; }
-        public string Model { get; set; }
-        public int Year { get; set; }
+        public required string Make { get; set; }
+        public required string Model { get; set; }
+        public required int Year { get; set; }
         public int StockCount { get; set; }
     }
 
@@ -22,10 +22,18 @@ namespace CarStockAPI.Models.Requests
     {
         public AddCarRequestValidator()
         {
-            RuleFor(x => x.Make).NotEmpty();
-            RuleFor(x => x.Model).NotEmpty();
-            RuleFor(x => x.Year).InclusiveBetween(1900, 2024);
-            RuleFor(x => x.StockCount).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.Make)
+                .NotEmpty()
+                .WithMessage("Make is a required field.");
+            RuleFor(x => x.Model)
+                .NotEmpty()
+                .WithMessage("Model is a required field.");
+            RuleFor(x => x.Year)
+                .InclusiveBetween(1900, 2024)
+                .WithMessage("Year must be between 1900 and 2024.");
+            RuleFor(x => x.StockCount)
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Stock count must be greater than or equal to 0.");
         }
     }
 }

@@ -3,6 +3,7 @@ using CarStockAPI.Models.Requests;
 using CarStockAPI.Data;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
+using FluentValidation.Results;
 
 namespace CarStockAPI.Endpoints.Cars
 {
@@ -40,6 +41,18 @@ namespace CarStockAPI.Endpoints.Cars
             }
 
             using var connection = _dbContext.CreateConnection();
+
+            var duplicateCar = await connection.QueryFirstOrDefaultAsync<int>(
+                "SELECT COUNT(*) FROM Cars WHERE DealerId = @DealerId AND Make = @Make AND Model = @Model AND Year = @Year",
+                new { DealerId = dealerId, req.Make, req.Model, req.Year });
+
+            if (duplicateCar > 0) // If the car already exists, return a conflict
+            {
+                AddError("Car already exists. If you wish to update the stock count, use the /cars/{CarId}/stock endpoint.");
+                await SendErrorsAsync(cancellation: ct);
+                return;
+            }
+
             var carId = await connection.ExecuteAsync(
                 "INSERT INTO Cars (DealerId, Make, Model, Year, StockCount) VALUES (@DealerId, @Make, @Model, @Year, @StockCount)",
                 new { DealerId = dealerId, req.Make, req.Model, req.Year, req.StockCount });
