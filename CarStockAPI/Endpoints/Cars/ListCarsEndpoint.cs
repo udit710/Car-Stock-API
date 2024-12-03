@@ -3,7 +3,6 @@ using CarStockAPI.Models;
 using CarStockAPI.Data;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
-using CarStockAPI.Models;
 
 namespace CarStockAPI.Endpoints.Cars
 {
