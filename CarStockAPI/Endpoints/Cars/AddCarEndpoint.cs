@@ -26,12 +26,26 @@ namespace CarStockAPI.Endpoints.Cars
 
         public override async Task HandleAsync(AddCarRequest req, CancellationToken ct)
         {
-            var dealerId = int.Parse(User.Claims.First(c => c.Type == "DealerId").Value);
+            var dealerIdClaim = User.Claims.FirstOrDefault(c => c.Type == "DealerId"); // Get the dealerId claim
+            if (dealerIdClaim == null) // If the dealerId claim is not found, return unauthorized
+            {
+                await SendUnauthorizedAsync(ct);
+                return;
+            }
+
+            if (!int.TryParse(dealerIdClaim.Value, out int dealerId)) // If the dealerId claim is not an integer, return unauthorized
+            {
+                await SendUnauthorizedAsync(ct);
+                return;
+            }
 
             using var connection = _dbContext.CreateConnection();
             var carId = await connection.ExecuteAsync(
-                "INSERT INTO Cars (DealerId, Make, Model, StockCount) VALUES (@DealerId, @Make, @Model, @StockCount)",
-                new { DealerId = dealerId, req.Make, req.Model, req.StockCount });
+                "INSERT INTO Cars (DealerId, Make, Model, Year, StockCount) VALUES (@DealerId, @Make, @Model, @Year, @StockCount)",
+                new { DealerId = dealerId, req.Make, req.Model, req.Year, req.StockCount });
+
+            // Get the carId of the newly added car
+            carId = await connection.QueryFirstOrDefaultAsync<int>("SELECT last_insert_rowid()"); // Get the latest inserted CarId
 
             await SendAsync(new { message = "Car added successfully.", carId }, 201, ct);
         }
