@@ -36,8 +36,9 @@ namespace CarStockAPI.Data
                 CREATE TABLE IF NOT EXISTS Cars (
                     CarId INTEGER PRIMARY KEY AUTOINCREMENT,
                     DealerId INTEGER NOT NULL,
-                    Make INTEGER NOT NULL,
+                    Make TEXT NOT NULL,
                     Model TEXT NOT NULL,
+                    Year INTEGER NOT NULL,
                     StockCount INTEGER NOT NULL,
                     FOREIGN KEY (DealerId) REFERENCES Dealers(DealerId) ON DELETE CASCADE
                 );

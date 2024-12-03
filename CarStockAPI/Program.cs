@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CarStockAPI.Data;
-using CarStockAPI.Helpers;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Cors;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,17 +34,37 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
-
+builder.Services.AddCors();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarStockAPI", Version = "v1" });
+});
+builder.Services.AddEndpointsApiExplorer();
+// builder.Services.AddFastEndpoints();
 var app = builder.Build();
 
 // Initialize Database
 var dbInitializer = app.Services.GetRequiredService<DbContext>();
 dbInitializer.Initialize();
-var dbPopulator = new PopulateDb(dbInitializer);
+// var dbPopulator = new PopulateDb(dbInitializer);
 // dbPopulator.populate();
+
 // Configure Middleware
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarStockAPI v1");
+    c.RoutePrefix = "swagger";
+});
+
 app.UseFastEndpoints();
 
 // Run the application
