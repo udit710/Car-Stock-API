@@ -67,7 +67,7 @@ dotnet restore
 dotnet run
 ```
 
-The API will be running on `https://localhost:5000`
+The API will be running on `http://localhost:5000`
 
 3. Navigate to the frontend directory
 
