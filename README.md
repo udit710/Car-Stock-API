@@ -10,6 +10,13 @@
 - [Features](#features)
 - [How to run](#how-to-run)
 - [API Endpoints](#api-endpoints)
+    - [Register](#register)
+    - [Login](#login)
+    - [List all cars](#list-all-cars)
+    - [Add a car](#add-a-car)
+    - [Search cars](#search-cars)
+    - [Update stock count](#update-stock-count)
+    - [Delete a car](#delete-a-car)
 - [Frontend](#frontend)
 
 ## Description
