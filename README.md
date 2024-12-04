@@ -4,6 +4,7 @@
 - [Description](#description)
 - [Architecture](#architecture)
 - [Database](#database)
+- [Project Structure](#project-structure)
 - [Pre-requisites](#pre-requisites)
 - [Tech Stack](#tech-stack)
 - [Features](#features)
@@ -33,6 +34,52 @@ The database is a simple SQLite database with two tables, Dealers and Cars.
     - Model : TEXT
     - Year : INT
     - StockCount : INT
+
+## Project Structure
+
+- CarStockAPI /
+    - Endpoints /
+        - Auth /
+            - LoginEndpoint.cs
+            - RegisterEndpoint.cs
+        - Cars /
+            - AddCarEndpoint.cs
+            - RemoveCarEndpoint.cs
+            - ListCarsEndpoint.cs
+            - SearchCarsEndpoint.cs
+            - UpdateStockEndpoint.cs
+    - Data /
+        - DbContext.cs
+        - PopulateDb.cs
+    - Models /
+        - Car.cs
+        - Dealer.cs
+        - Requests /
+            - AddCarRequest.cs
+            - AuthRequest.cs
+            - AuthResponse.cs
+            - UpdateStockRequest.cs
+    - Helpers /
+        - JwtHelper.cs
+    - appsettings.json
+    - Program.cs
+    - cars.db
+
+- car-stock-frontend /
+    - public /
+    - src /
+        - stores /
+            - auth.js
+        - routes /
+            - AddCar.svelte
+            - Login.svelte
+            - Register.svelte
+            - SearchCar.svelte
+            - Navbar.svelte
+        - App.svelte
+        - main.js
+    - package.json
+    - rollup.config.js
 
 ## Pre-requisites
 - .NET 8.0
