@@ -1,12 +1,13 @@
 <script>
     // import Navbar from './routes/Navbar.svelte';
-    import Login from './routes/Login.svelte';
-    import AddCar from './routes/AddCar.svelte';
     import { authToken } from './stores/auth';
-    import SearchCar from './routes/SearchCar.svelte';
-    import Register from './routes/Register.svelte';
     import { currentRoute } from './stores.js';
     import { onMount } from 'svelte';
+    
+    import Login from './routes/Login.svelte';
+    import AddCar from './routes/AddCar.svelte';
+    import SearchCar from './routes/SearchCar.svelte';
+    import Register from './routes/Register.svelte';
 
 		let route;
         $: $currentRoute = currentRoute;
